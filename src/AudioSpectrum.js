@@ -119,11 +119,15 @@ class AudioSpectrum extends Component {
     window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;
     window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
     window.cancelAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.msCancelAnimationFrame;
-    try {
-      this.audioContext = new window.AudioContext(); // 1.set audioContext
-    } catch (e) {
-      // console.error('!Your browser does not support AudioContext')
-      console.log(e);
+    if(this.props.audioContext){
+      this.audioContext = this.props.audioContext
+    }else{
+      try {
+        this.audioContext = new window.AudioContext(); // 1.set audioContext
+      } catch (e) {
+        // console.error('!Your browser does not support AudioContext')
+        console.log(e);
+      }
     }
   }
   render() {
@@ -150,6 +154,7 @@ AudioSpectrum.propTypes = {
     })),
   ]),
   gap: PropTypes.number,
+  audioContext: PropTypes.object
 }
 AudioSpectrum.defaultProps = {
   width: 300,
